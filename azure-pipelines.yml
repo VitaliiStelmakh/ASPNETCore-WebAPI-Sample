@@ -19,7 +19,7 @@ variables:
   azuresub: ''
 
   # Azure App Service name
-  webAppName: 'kolya'
+  webAppName: 'valera'
 
 stages:
 - stage: Build
@@ -64,5 +64,5 @@ stages:
           - task: AzureWebAppContainer@1
             inputs:
               azureSubscription: 'Azure for Students(12c692a0-00e1-447a-8d87-2712018a0472)'
-              appName: 'kolya'
+              appName: $(webAppName)
               containers: '$(containerRegistry)/$(imageRepository):$(tag)'
