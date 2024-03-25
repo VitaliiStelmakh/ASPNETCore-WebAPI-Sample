@@ -37,22 +37,22 @@ stages:
         tags: |
           $(tag)
 
-# - stage: Deploy
-#   displayName: Deploy to Azure App Service
-#   # dependsOn: Build
-#   # condition: succeeded()
-#   jobs:
-#   - deployment: DeployWebApp
-#     displayName: Deploy Web App
-#     environment: 'production'
-#     pool:
-#       vmImage: $(vmImageName)
-#     strategy:
-#       runOnce:
-#         deploy:
-#           steps:
-#           - task: AzureWebAppContainer@1
-#             inputs:
-#               azureSubscription: 'Azure for Students(12c692a0-00e1-447a-8d87-2712018a0472)'
-#               appName: 'beStrongDockerAppService121212'
-#               containers: '$(containerRegistry)/$(imageRepository):$(tag)'
+- stage: Deploy
+  displayName: Deploy to Azure App Service
+  # dependsOn: Build
+  # condition: succeeded()
+  jobs:
+  - deployment: DeployWebApp
+    displayName: Deploy Web App
+    environment: 'production'
+    pool:
+      vmImage: $(vmImageName)
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureWebAppContainer@1
+            inputs:
+              azureSubscription: 'Azure for Students(12c692a0-00e1-447a-8d87-2712018a0472)'
+              appName: 'beStrongDockerAppService121212'
+              containers: '$(containerRegistry)/$(imageRepository):$(tag)'
