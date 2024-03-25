@@ -60,11 +60,11 @@ stages:
         command: 'plan'
         environmentServiceNameAzureRM: 'Azure for Students(12c692a0-00e1-447a-8d87-2712018a0472)'
         commandOptions: >- 
-                        -auto-approve \
-                        -var "subscription_id=$(subscription_id)" \
-                        -var "client_id=$(client_id)" \
-                        -var "client_secret=$(client_secret)" \
-                        -var "tenant_id=$(tenant_id)" \
+                        -auto-approve
+                        -var "subscription_id=$(subscription_id)"
+                        -var "client_id=$(client_id)"
+                        -var "client_secret=$(client_secret)"
+                        -var "tenant_id=$(tenant_id)"
 
     # - task: TerraformTaskV4@4
     #   inputs:
