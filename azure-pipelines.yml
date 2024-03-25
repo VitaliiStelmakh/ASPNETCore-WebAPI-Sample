@@ -5,18 +5,10 @@ resources:
 - repo: self
 
 variables:
-  # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: 'c271b017-1d27-42fd-8a09-1c9c33833706'
-  imageRepository: 'vitaliistelmakhaspnetcorewebapisample'
-  containerRegistry: 'beStrongDockerAcr6ep0b2yp.azurecr.io'
-  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
-  tag: '$(Build.BuildId)'
+- group: Terraform
+- name: dockerRegistryServiceConnection
+  value: 'c271b017-1d27-42fd-8a09-1c9c33833706'
 
-  # Agent VM image name
-  vmImageName: 'ubuntu-latest'
-
-  # Azure App Service name
-  webAppName: 'BsAppService'
 
 stages:
 - stage: Build
@@ -25,7 +17,7 @@ stages:
   - job: Build
     displayName: Build
     pool:
-      vmImage: $(vmImageName)
+      vmImage: 'ubuntu-latest'
     steps:
     - task: Docker@2
       displayName: Build and push an image to container registry
@@ -46,7 +38,7 @@ stages:
     displayName: Deploy Web App
     environment: 'production'
     pool:
-      vmImage: $(vmImageName)
+      vmImage: 'ubuntu-latest'
     strategy:
       runOnce:
         deploy:
@@ -54,5 +46,5 @@ stages:
           - task: AzureWebAppContainer@1
             inputs:
               azureSubscription: 'Azure for Students(12c692a0-00e1-447a-8d87-2712018a0472)'
-              appName: $(webAppName)
-              containers: '$(containerRegistry)/$(imageRepository):$(tag)'
+              appName: 'BsAppService'
+              containers: '$(containerRegistry)/$(imageRepository):$(Build.BuildId)'
