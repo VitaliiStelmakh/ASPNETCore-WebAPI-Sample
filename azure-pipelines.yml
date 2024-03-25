@@ -5,22 +5,18 @@ resources:
 - repo: self
 
 variables:
-  # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '3ac3fb5e-9dae-4724-b2c9-0582deeb73d9'
-  imageRepository: 'vitaliistelmakhaspnetcorewebapisample'
-  containerRegistry: 'cregsd.azurecr.io'
-  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
-  
-  tag: '$(Build.BuildId)'
-
-  # Agent VM image name
-  vmImageName: 'ubuntu-latest'
-
-  # Azure service connection
-  azuresub: ''
-
-  # Azure App Service name
-  webAppName: 'valera'
+- group: Terraform
+  # # Container registry service connection established during pipeline creation
+  # dockerRegistryServiceConnection: '3ac3fb5e-9dae-4724-b2c9-0582deeb73d9'
+  # imageRepository: 'vitaliistelmakhaspnetcorewebapisample'
+  # containerRegistry: 'cregsd.azurecr.io'
+  # dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
+  # tag: '$(Build.BuildId)'
+  # # Agent VM image name
+  # vmImageName: 'ubuntu-latest'
+  # # Azure service connection''
+  # # Azure App Service name
+  # webAppName: 'valera'
 
 stages:
 
@@ -30,7 +26,7 @@ stages:
   - job: Terraform
     displayName: Terraform Apply
     pool:
-      vmImage: $(vmImageName)
+      vmImage: 'ubuntu-latest'
     steps:
     - script: |
         echo "Subscription ID: $(subscription_id)"
@@ -92,42 +88,42 @@ stages:
     #                     -var "tenant_id=$(tenant_id)" \
 
 
-- stage: Build
-  displayName: Build and push stage
-  dependsOn: BuildInfrastructure
-  condition: succeeded()
-  jobs:
-  - job: Build
-    displayName: Build
-    pool:
-      vmImage: $(vmImageName)
-    steps:
-    - task: Docker@2
-      displayName: Build and push an image to container registry
-      inputs:
-        command: buildAndPush
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
-          $(tag)
+# - stage: Build
+#   displayName: Build and push stage
+#   dependsOn: BuildInfrastructure
+#   condition: succeeded()
+#   jobs:
+#   - job: Build
+#     displayName: Build
+#     pool:
+#       vmImage: $(vmImageName)
+#     steps:
+#     - task: Docker@2
+#       displayName: Build and push an image to container registry
+#       inputs:
+#         command: buildAndPush
+#         repository: $(imageRepository)
+#         dockerfile: $(dockerfilePath)
+#         containerRegistry: $(dockerRegistryServiceConnection)
+#         tags: |
+#           $(tag)
 
-- stage: Deploy
-  displayName: Deploy to Azure App Service
-  dependsOn: Build
-  condition: succeeded()
-  jobs:
-  - deployment: DeployWebApp
-    displayName: Deploy Web App
-    environment: 'production'
-    pool:
-      vmImage: $(vmImageName)
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: AzureWebAppContainer@1
-            inputs:
-              azureSubscription: 'Azure for Students(12c692a0-00e1-447a-8d87-2712018a0472)'
-              appName: $(webAppName)
-              containers: '$(containerRegistry)/$(imageRepository):$(tag)'
+# - stage: Deploy
+#   displayName: Deploy to Azure App Service
+#   dependsOn: Build
+#   condition: succeeded()
+#   jobs:
+#   - deployment: DeployWebApp
+#     displayName: Deploy Web App
+#     environment: 'production'
+#     pool:
+#       vmImage: $(vmImageName)
+#     strategy:
+#       runOnce:
+#         deploy:
+#           steps:
+#           - task: AzureWebAppContainer@1
+#             inputs:
+#               azureSubscription: 'Azure for Students(12c692a0-00e1-447a-8d87-2712018a0472)'
+#               appName: $(webAppName)
+#               containers: '$(containerRegistry)/$(imageRepository):$(tag)'
