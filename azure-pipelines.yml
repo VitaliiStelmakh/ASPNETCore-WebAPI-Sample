@@ -55,4 +55,4 @@ stages:
             inputs:
               azureSubscription: 'Azure for Students(12c692a0-00e1-447a-8d87-2712018a0472)'
               appName: 'beStrongDockerAppService'
-              containers: '$(containerRegistry)/$(imageRepository):113'
+              containers: '$(containerRegistry)/$(imageRepository):114'
