@@ -25,3 +25,7 @@ variable "docker_registry_password" {
     description = "The Docker Registry Password"
   type = string
 }
+variable "docker_image_name" {
+    description = "The Docker Image Name"
+  type = string
+}

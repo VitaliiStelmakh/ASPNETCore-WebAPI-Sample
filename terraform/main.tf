@@ -45,8 +45,8 @@ resource "azurerm_service_plan" "be_strong_docker_asp" {
 
 # App Service
 
-resource "azurerm_linux_web_app" "be_strong_docker_as" {
-  name                = "beStrongAppService"
+resource "azurerm_linux_web_app" "be_strong_as" {
+  name                = "BsAppService"
   location            = azurerm_resource_group.bestrong_docker_rg.location
   resource_group_name = azurerm_resource_group.bestrong_docker_rg.name
   service_plan_id = azurerm_service_plan.be_strong_docker_asp.id
@@ -54,12 +54,11 @@ resource "azurerm_linux_web_app" "be_strong_docker_as" {
     application_stack {
       docker_registry_username = var.docker_registry_username  
       docker_registry_password = var.docker_registry_password 
-      docker_image_name        = "bestrongdockeracr6ep0b2yp.azurecr.io/vitaliistelmakhaspnetcorewebapisample:111"
+      docker_image_name        = var.docker_image_name
 
     }
   }
 }
-
 
 # Random String
 resource "random_string" "acr_suffix" {
