@@ -26,13 +26,11 @@ provider "azurerm" {
   client_secret   = var.client_secret
   tenant_id       = var.tenant_id
 }
-
 # Resource Group
 resource "azurerm_resource_group" "bestrong_docker_rg" {
   name     = "bestrong_docker_rg"
   location = "eastus"
 }
-
 # App Service Plan
 resource "azurerm_service_plan" "be_strong_docker_asp" {
   name                = "beStrongDockerAppServicePlan"
@@ -41,10 +39,7 @@ resource "azurerm_service_plan" "be_strong_docker_asp" {
   os_type             = "Linux"
   sku_name            = "B1"
 }
-
-
 # App Service
-
 resource "azurerm_linux_web_app" "be_strong_as" {
   name                = "BsAppService"
   location            = azurerm_resource_group.bestrong_docker_rg.location
