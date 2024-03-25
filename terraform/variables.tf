@@ -16,3 +16,12 @@ variable "tenant_id" {
     description = "The Azure Tenant ID"
   type = string
 }
+
+variable "docker_registry_username" {
+    description = "The Docker Registry Username"
+  type = string
+}
+variable "docker_registry_password" {
+    description = "The Docker Registry Password"
+  type = string
+}
