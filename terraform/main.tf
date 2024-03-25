@@ -49,6 +49,7 @@ resource "azurerm_linux_web_app" "be_strong_docker_as" {
   location            = azurerm_resource_group.bestrong_docker_rg.location
   resource_group_name = azurerm_resource_group.bestrong_docker_rg.name
   service_plan_id = azurerm_service_plan.be_strong_docker_asp.id
+  
   site_config {} 
 }
 
@@ -66,8 +67,10 @@ resource "azurerm_container_registry" "be_strong_docker_acr" {
   resource_group_name      = azurerm_resource_group.bestrong_docker_rg.name
   location                 = azurerm_resource_group.bestrong_docker_rg.location
   sku                      = "Standard"
-  admin_enabled            = false
+  admin_enabled            = true
 }
+
+
 
 
 
