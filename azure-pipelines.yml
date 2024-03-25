@@ -16,7 +16,7 @@ variables:
   vmImageName: 'ubuntu-latest'
 
   # Azure App Service name
-  webAppName: 'beStrongDockerAppService'
+  webAppName: 'adsada'
 
 stages:
 # - stage: Build
@@ -54,5 +54,5 @@ stages:
           - task: AzureWebAppContainer@1
             inputs:
               azureSubscription: 'Azure for Students(12c692a0-00e1-447a-8d87-2712018a0472)'
-              appName: 'beStrongDockerAppService'
+              appName: 'adsada'
               containers: '$(containerRegistry)/$(imageRepository):114'
