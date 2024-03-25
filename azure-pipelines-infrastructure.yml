@@ -18,16 +18,6 @@ stages:
       inputs:
         terraformVersion: 'latest'
   
-    - script: |
-        echo "Subscription ID: $subscription_id"
-        echo "Client ID: $client_id"
-        echo "Tenant ID: $tenant_id"
-      displayName: 'Print Variables'
-      env:
-        subscription_id: $(subscription_id)
-        client_id: $(client_id)
-        tenant_id: $(tenant_id)
-
     - task: TerraformTaskV4@4
       displayName: 'Init Terraform'
       inputs:
@@ -61,6 +51,7 @@ stages:
                         -var "tenant_id=$(tenant_id)"
 
     - task: TerraformTaskV4@4
+      displayName: 'Apply Terraform'
       inputs:
         provider: 'azurerm'
         command: 'apply'
