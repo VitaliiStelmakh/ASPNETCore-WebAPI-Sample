@@ -1,6 +1,7 @@
 # trigger:
 # - main
-
+variables:
+  -group: Terraform
 pool:
   vmImage: ubuntu-latest
 stages:  
