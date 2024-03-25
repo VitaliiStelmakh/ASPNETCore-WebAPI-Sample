@@ -16,26 +16,26 @@ variables:
   vmImageName: 'ubuntu-latest'
 
   # Azure App Service name
-  webAppName: 'adsada'
+  webAppName: 'beStrongDockerAppService121212'
 
 stages:
-# - stage: Build
-#   displayName: Build and push stage
-#   jobs:
-#   - job: Build
-#     displayName: Build
-#     pool:
-#       vmImage: $(vmImageName)
-#     steps:
-#     - task: Docker@2
-#       displayName: Build and push an image to container registry
-#       inputs:
-#         command: buildAndPush
-#         repository: $(imageRepository)
-#         dockerfile: $(dockerfilePath)
-#         containerRegistry: $(dockerRegistryServiceConnection)
-#         tags: |
-#           $(tag)
+- stage: Build
+  displayName: Build and push stage
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
 
 - stage: Deploy
   displayName: Deploy to Azure App Service
@@ -54,5 +54,5 @@ stages:
           - task: AzureWebAppContainer@1
             inputs:
               azureSubscription: 'Azure for Students(12c692a0-00e1-447a-8d87-2712018a0472)'
-              appName: 'adsada'
-              containers: '$(containerRegistry)/$(imageRepository):114'
+              appName: 'beStrongDockerAppService121212'
+              containers: '$(containerRegistry)/$(imageRepository):$(tag)'
