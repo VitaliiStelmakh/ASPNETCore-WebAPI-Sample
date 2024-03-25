@@ -6,7 +6,7 @@ resources:
 
 variables:
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '3938e8c4-c62c-4a2d-9b80-02b1b2547ece'
+  dockerRegistryServiceConnection: 'c271b017-1d27-42fd-8a09-1c9c33833706'
   imageRepository: 'vitaliistelmakhaspnetcorewebapisample'
   containerRegistry: 'beStrongDockerAcr6ep0b2yp.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
@@ -16,7 +16,7 @@ variables:
   vmImageName: 'ubuntu-latest'
 
   # Azure App Service name
-  webAppName: 'adsada'
+  webAppName: 'beStrongDockerAppService121212'
 
 stages:
 # - stage: Build
@@ -54,5 +54,5 @@ stages:
           - task: AzureWebAppContainer@1
             inputs:
               azureSubscription: 'Azure for Students(12c692a0-00e1-447a-8d87-2712018a0472)'
-              appName: 'adsada'
-              containers: '$(containerRegistry)/$(imageRepository):114'
+              appName: 'beStrongDockerAppService121212'
+              containers: '$(containerRegistry)/$(imageRepository):123'
