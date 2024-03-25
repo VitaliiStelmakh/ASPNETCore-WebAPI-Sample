@@ -1,5 +1,12 @@
-# trigger:
-# - main
+trigger:
+  branches:
+    include:
+    - main
+pr:
+  branches:
+    include:
+    - main
+    
 variables:
   - group: Terraform
 pool:
