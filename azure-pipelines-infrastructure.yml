@@ -49,6 +49,9 @@ stages:
                         -var "client_id=$(client_id)"
                         -var "client_secret=$(client_secret)"
                         -var "tenant_id=$(tenant_id)"
+                        -var "docker_registry_username=$(docker_registry_username)"
+                        -var "docker_registry_password=$(docker_registry_password)"
+                        -var "docker_image_name=$(docker_image_name)"
 
     - task: TerraformTaskV4@4
       displayName: 'Apply Terraform'
@@ -63,5 +66,8 @@ stages:
                         -var "client_id=$(client_id)"
                         -var "client_secret=$(client_secret)"
                         -var "tenant_id=$(tenant_id)"
+                        -var "docker_registry_username=$(docker_registry_username)"
+                        -var "docker_registry_password=$(docker_registry_password)"
+                        -var "docker_image_name=$(docker_image_name)"
 
 
