@@ -1,7 +1,7 @@
 # trigger:
 # - main
 variables:
-  -group: Terraform
+  - group: Terraform
 pool:
   vmImage: ubuntu-latest
 stages:  
@@ -17,7 +17,7 @@ stages:
       displayName: 'Install Terraform'
       inputs:
         terraformVersion: 'latest'
-      
+  
     - task: TerraformTaskV4@4
       displayName: 'Init Terraform'
       inputs:
@@ -45,13 +45,13 @@ stages:
         environmentServiceNameAzureRM: 'Azure for Students(12c692a0-00e1-447a-8d87-2712018a0472)'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
         commandOptions: >- 
-                        
                         -var "subscription_id=$(subscription_id)"
                         -var "client_id=$(client_id)"
                         -var "client_secret=$(client_secret)"
                         -var "tenant_id=$(tenant_id)"
 
     - task: TerraformTaskV4@4
+      displayName: 'Apply Terraform'
       inputs:
         provider: 'azurerm'
         command: 'apply'
