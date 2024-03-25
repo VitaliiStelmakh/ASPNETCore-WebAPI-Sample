@@ -51,19 +51,8 @@ stages:
       runOnce:
         deploy:
           steps:
-
-          - task: AzureRmWebAppDeployment@4
+          - task: AzureWebAppContainer@1
             inputs:
-              ConnectionType: 'AzureRM'
               azureSubscription: 'Azure for Students(12c692a0-00e1-447a-8d87-2712018a0472)'
-              appType: 'webAppContainer'
-              WebAppName: 'beStrongDockerAppService'
-              DockerNamespace: '$(containerRegistry)'
-              DockerRepository: '$(imageRepository)'
-              DockerImageTag: '112'
-          
-          # - task: AzureWebAppContainer@1
-          #   inputs:
-          #     azureSubscription: 'Azure for Students(12c692a0-00e1-447a-8d87-2712018a0472)'
-          #     appName: 'beStrongDockerAppService'
-          #     containers: '$(containerRegistry)/$(imageRepository):113'
+              appName: 'beStrongDockerAppService'
+              containers: '$(containerRegistry)/$(imageRepository):113'
