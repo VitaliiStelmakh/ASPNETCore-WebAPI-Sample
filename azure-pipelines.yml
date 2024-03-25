@@ -10,6 +10,7 @@ variables:
   imageRepository: 'vitaliistelmakhaspnetcorewebapisample'
   containerRegistry: 'cregsd.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
+  
   tag: '$(Build.BuildId)'
 
   # Agent VM image name
@@ -22,8 +23,66 @@ variables:
   webAppName: 'valera'
 
 stages:
+
+- stage: BuildInfrastructure
+  displayName: Build infrastructure
+  jobs:
+  - job: Terraform
+    displayName: Terraform Apply
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: TerraformInstaller@0
+      displayName: 'Install Terraform'
+      inputs:
+        terraformVersion: 'latest'
+    - task: TerraformTaskV4@4
+      displayName: 'Init Terraform'
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        backendServiceArm: 'Azure for Students(12c692a0-00e1-447a-8d87-2712018a0472)'
+        backendAzureRmResourceGroupName: 'tfstate'
+        backendAzureRmStorageAccountName: 'tfstatedocker123'
+        backendAzureRmContainerName: 'tfstate'
+        backendAzureRmKey: 'terraform.tfstate'
+      
+    - task: TerraformTaskV4@4
+      displayName: 'Validate Terraform'
+      inputs:
+        provider: 'azurerm'
+        command: 'validate'
+
+    - task: TerraformTaskV4@4
+      displayName: 'Plan Terraform'
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        environmentServiceNameAzureRM: 'Azure for Students(12c692a0-00e1-447a-8d87-2712018a0472)'
+        commandOptions: >- 
+                        -auto-approve
+                        -var "subscription_id=$(subscription_id)"
+                        -var "client_id=$(client_id)"
+                        -var "client_secret=$(client_secret)"
+                        -var "tenant_id=$(tenant_id)"
+
+    # - task: TerraformTaskV4@4
+    #   inputs:
+    #     provider: 'azurerm'
+    #     command: 'apply'
+    #     environmentServiceNameAzureRM: 'Azure for Students(12c692a0-00e1-447a-8d87-2712018a0472)'
+    #     commandOptions: >- 
+    #                     -auto-approve \
+    #                     -var "subscription_id=$(subscription_id)" \
+    #                     -var "client_id=$(client_id)" \
+    #                     -var "client_secret=$(client_secret)" \
+    #                     -var "tenant_id=$(tenant_id)" \
+
+
 - stage: Build
   displayName: Build and push stage
+  dependsOn: BuildInfrastructure
+  condition: succeeded()
   jobs:
   - job: Build
     displayName: Build
@@ -54,13 +113,6 @@ stages:
       runOnce:
         deploy:
           steps:
-          # - task: AzureWebApp@1
-          #   displayName: 'Deploy to Azure Web App'
-          #   inputs:
-          #     azureSubscription: 'Azure for Students(12c692a0-00e1-447a-8d87-2712018a0472)'
-          #     appName: $(webAppName)
-          #     images: '$(containerRegistry)/$(imageRepository):$(tag)'
-
           - task: AzureWebAppContainer@1
             inputs:
               azureSubscription: 'Azure for Students(12c692a0-00e1-447a-8d87-2712018a0472)'
