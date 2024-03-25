@@ -55,6 +55,7 @@ stages:
 
     - task: TerraformTaskV4@4
       displayName: 'Apply Terraform'
+      condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
       inputs:
         provider: 'azurerm'
         command: 'apply'
