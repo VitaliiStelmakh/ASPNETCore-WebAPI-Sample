@@ -36,7 +36,10 @@ stages:
         echo "Subscription ID: $(subscription_id)"
         echo "Client ID: $(client_id)"
         echo "Tenant ID: $(tenant_id)"
-
+      env:
+          subscription_id: $(subscription_id)
+          client_id: $(client_id)
+          tenant_id: $(tenant_id)
     - task: TerraformInstaller@0
       displayName: 'Install Terraform'
       inputs:
