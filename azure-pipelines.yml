@@ -6,20 +6,17 @@ resources:
 
 variables:
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '3ac3fb5e-9dae-4724-b2c9-0582deeb73d9'
+  dockerRegistryServiceConnection: '3938e8c4-c62c-4a2d-9b80-02b1b2547ece'
   imageRepository: 'vitaliistelmakhaspnetcorewebapisample'
-  containerRegistry: 'cregsd.azurecr.io'
+  containerRegistry: 'beStrongDockerAcr6ep0b2yp.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
-  # Azure service connection
-  azuresub: ''
-
   # Azure App Service name
-  webAppName: 'kolya'
+  webAppName: 'beStrongDockerAppService'
 
 stages:
 - stage: Build
@@ -57,5 +54,5 @@ stages:
           - task: AzureWebAppContainer@1
             inputs:
               azureSubscription: 'Azure for Students(12c692a0-00e1-447a-8d87-2712018a0472)'
-              appName: 'kolya'
+              appName: $(webAppName)
               containers: '$(containerRegistry)/$(imageRepository):$(tag)'
