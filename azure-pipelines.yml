@@ -27,7 +27,7 @@ stages:
         dockerfile: $(dockerfilePath)
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
-          $(tag)
+          $(Build.BuildId)
 
 - stage: Deploy
   displayName: Deploy to Azure App Service
