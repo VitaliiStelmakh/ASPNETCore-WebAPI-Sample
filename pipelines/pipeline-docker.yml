@@ -1,5 +1,11 @@
-# trigger:
-# - main
+trigger:
+  branches:
+    include:
+    - main
+pr:
+  branches:
+    include:
+    - main
 
 resources:
 - repo: self
@@ -31,8 +37,8 @@ stages:
 
 - stage: Deploy
   displayName: Deploy to Azure App Service
-  # dependsOn: Build
-  # condition: succeeded()
+  dependsOn: Build
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   jobs:
   - deployment: DeployWebApp
     displayName: Deploy Web App
